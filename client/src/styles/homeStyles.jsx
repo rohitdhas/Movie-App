@@ -2,6 +2,11 @@ import styled from "styled-components";
 
 export const HomePage = styled.div`
   margin-top: 100px;
+
+  h2.no_data {
+    margin: 20px 0;
+    text-align: center;
+  }
 `;
 
 export const AddBtn = styled.div`

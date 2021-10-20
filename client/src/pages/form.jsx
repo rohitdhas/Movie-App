@@ -4,8 +4,23 @@ import {
   FormNav,
 } from "../styles/addMovieFormStyles";
 import { Link } from "react-router-dom";
+import { useRef, useState } from "react";
+import { uploadFile } from "../helpers/formHandler";
 
 export default function AddNewMovieForm() {
+  const movieName = useRef();
+  const releaseYear = useRef();
+  const ratings = useRef();
+  const category = useRef();
+  const thumbnail = useRef();
+  const movie = useRef();
+  const language = useRef();
+  const error = useRef();
+  const formRef = useRef();
+
+  const [isThumbnail, setIsThumbnail] = useState(false);
+  const [isMovie, setIsMovie] = useState(false);
+
   return (
     <>
       <FormNav>
@@ -24,23 +39,61 @@ export default function AddNewMovieForm() {
         Upload a Movie
       </h2>
       <AddMoviePage>
-        <AddMovieForm>
-          <div className="error"></div>
-          <div id="name_input">
-            <label>Movie Name</label>
-            <input type="text" placeholder="Enter Movie Name" />
-          </div>
-          <div id="year_input">
-            <label>Year of Release</label>
-            <input type="number" placeholder="Year of Release" />
-          </div>
-          <div id="rating_input">
-            <label>Ratings</label>
-            <input type="number" placeholder="Movie Rating" />
+        <AddMovieForm ref={formRef}>
+          <div className="error" ref={error}></div>
+          <div>
+            <label>
+              Movie Name <span style={{ color: "tomato" }}>*</span>
+            </label>
+            <input
+              type="text"
+              placeholder="Enter Movie Name"
+              required
+              ref={movieName}
+            />
           </div>
           <div>
-            <label>Category</label>
-            <select>
+            <label>
+              Language <span style={{ color: "tomato" }}>*</span>
+            </label>
+            <input
+              type="text"
+              placeholder="Enter Movie Language"
+              required
+              ref={language}
+            />
+          </div>
+          <div>
+            <label>
+              Year of Release <span style={{ color: "tomato" }}>*</span>
+            </label>
+            <input
+              type="number"
+              placeholder="Year of Release"
+              required
+              ref={releaseYear}
+              name="year"
+            />
+          </div>
+          <div>
+            <label>
+              Ratings <span style={{ color: "tomato" }}>*</span>
+            </label>
+            <input
+              type="number"
+              placeholder="Movie Rating"
+              required
+              max={10}
+              min={0}
+              ref={ratings}
+              name="ratings"
+            />
+          </div>
+          <div>
+            <label>
+              Category <span style={{ color: "tomato" }}>*</span>
+            </label>
+            <select name="category" required ref={category}>
               <option value="Action">Action</option>
               <option value="Romantic">Romantic</option>
               <option value="Sci-Fi">Sci-Fi</option>
@@ -53,21 +106,83 @@ export default function AddNewMovieForm() {
             </select>
           </div>
           <div>
-            <label className="custom_file_input" for="thumbnail_input">
-              Select Thumbnail
+            <label className="custom_file_input" htmlFor="thumbnail_input">
+              <span>
+                {!isThumbnail ? (
+                  <>
+                    Select Thumbnail{" "}
+                    <span style={{ color: "tomato" }}>(Max size 1 MB)*</span>
+                  </>
+                ) : (
+                  <>File Selected</>
+                )}
+              </span>
               <i className="bi bi-plus-square-fill"></i>
             </label>
-            <input id="thumbnail_input" type="file" />
+            <input
+              accept="image/*"
+              id="thumbnail_input"
+              type="file"
+              required
+              ref={thumbnail}
+              onChange={(e) => {
+                if (e.target.files[0]) {
+                  setIsThumbnail(true);
+                } else {
+                  setIsThumbnail(false);
+                }
+              }}
+            />
           </div>
           <div>
-            <label className="custom_file_input" for="video_input">
-              Select Movie
+            <label className="custom_file_input" htmlFor="video_input">
+              <span>
+                {!isMovie ? (
+                  <>
+                    Select Movie{" "}
+                    <span style={{ color: "tomato" }}>(Max size 14 MB)*</span>
+                  </>
+                ) : (
+                  <>File Selected</>
+                )}
+              </span>
               <i className="bi bi-plus-square-fill"></i>
             </label>
-            <input id="video_input" type="file" />
+            <input
+              id="video_input"
+              accept="video/*"
+              type="file"
+              required
+              ref={movie}
+              onChange={(e) => {
+                if (e.target.files[0]) {
+                  setIsMovie(true);
+                } else {
+                  setIsMovie(false);
+                }
+              }}
+            />
           </div>
 
-          <button>Add Movie</button>
+          <button
+            type="submit"
+            onClick={(e) => {
+              uploadFile(
+                e,
+                movieName,
+                releaseYear,
+                ratings,
+                category,
+                thumbnail,
+                movie,
+                error,
+                formRef,
+                language
+              );
+            }}
+          >
+            Add Movie
+          </button>
         </AddMovieForm>
       </AddMoviePage>
     </>

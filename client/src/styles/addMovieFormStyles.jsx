@@ -14,6 +14,10 @@ export const AddMovieForm = styled.form`
   border-radius: 5px;
   margin-bottom: 40px;
 
+  &.error {
+    border: 2px solid tomato;
+  }
+
   .error {
     padding: 10px;
     background-color: tomato;
@@ -29,28 +33,27 @@ export const AddMovieForm = styled.form`
   }
 
   div {
-    margin: 10px 0;
+    margin: 7px 0;
     display: flex;
     justify-content: center;
     flex-direction: column;
 
     label {
-      margin: 10px 0;
+      margin: 7px 0;
       font-weight: bold;
-      font-size: 0.9rem;
+      font-size: 0.8rem;
     }
 
     input[type="text"],
     input[type="number"] {
-      font-size: 1.2rem;
-      padding: 10px;
+      padding: 7px;
       outline: none;
       border: 2px solid lightgray;
       transition: 0.1s border;
       border-radius: 5px;
 
       &:focus {
-        border: 3px solid #6587ec;
+        border: 2px solid #6587ec;
       }
     }
 
@@ -60,7 +63,7 @@ export const AddMovieForm = styled.form`
     .custom_file_input {
       border: 2px solid lightgray;
       display: inline-block;
-      padding: 10px;
+      padding: 7px;
       cursor: pointer;
       border-radius: 5px;
       display: flex;
@@ -69,7 +72,7 @@ export const AddMovieForm = styled.form`
       align-items: center;
 
       i {
-        color: royalblue;
+        color: #98b2ff;
         font-size: 2rem;
       }
 
@@ -81,7 +84,7 @@ export const AddMovieForm = styled.form`
 
   select {
     width: 100%;
-    padding: 10px;
+    padding: 7px;
     cursor: pointer;
     outline: none;
     border: 2px solid lightgray;
@@ -89,7 +92,7 @@ export const AddMovieForm = styled.form`
   }
 
   button {
-    padding: 15px;
+    padding: 10px;
     width: 100%;
     border-radius: 5px;
     border: none;

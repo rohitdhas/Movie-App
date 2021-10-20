@@ -3,11 +3,14 @@ import { Link } from "react-router-dom";
 
 export default function MovieCard({ data }) {
   return (
-    <Link to="/watch" style={{ textDecoration: "none", color: "black" }}>
+    <Link
+      to={`/watch/${data._id}`}
+      style={{ textDecoration: "none", color: "black" }}
+    >
       <Card>
         <div className="thumbnail">
           <img
-            src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSc4BAjnsqnZo04y2QXVojQW0YlIHvFcsMT4PRhVgvf2BQelwxTAxoUbwGBA3PnuOqtlwQ&usqp=CAU"
+            src={`http://localhost:8080/file/${data.thumbnail}`}
             alt="thumbnail"
           />
         </div>
@@ -15,7 +18,7 @@ export default function MovieCard({ data }) {
           <div className="name">
             {data.name} - <span className="year">({data.year})</span>
           </div>
-          <div className="language">Language - {data.lang}</div>
+          <div className="language">Language - {data.language}</div>
           <div className="category">Category - {data.category}</div>
           <div className="rating">Rating - {data.rating}⭐</div>
         </div>

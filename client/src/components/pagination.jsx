@@ -1,6 +1,12 @@
 import { List, Number } from "../styles/paginationStyles";
 
-export default function Pagination() {
+export default function Pagination({ moviesPerPage, totalMovies, paginate }) {
+  const pageNumbers = [];
+
+  for (let x = 1; x <= Math.ceil(totalMovies / moviesPerPage); x++) {
+    pageNumbers.push(x);
+  }
+
   return (
     <>
       <p style={{ fontWeight: "bold", marginTop: "50px" }}>
@@ -8,15 +14,13 @@ export default function Pagination() {
         <i style={{ marginLeft: "10px" }} className="bi bi-arrow-right"></i>
       </p>
       <List>
-        <Number className="active">
-          <a href="#">1</a>
-        </Number>
-        <Number>
-          <a href="#">2</a>
-        </Number>
-        <Number>
-          <a href="#">3</a>
-        </Number>
+        {pageNumbers.map((num) => {
+          return (
+            <Number onClick={() => paginate(num)} key={num}>
+              <a href="#">{num}</a>
+            </Number>
+          );
+        })}
       </List>
     </>
   );
