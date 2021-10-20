@@ -41,3 +41,18 @@ export const Loader = styled.div`
     }
   }
 `;
+
+export const SearchSpinnerBox = styled.div`
+  padding: 20px;
+  margin: 20px 0;
+  width: 100%;
+  display: none;
+  justify-content: center;
+  align-items: center;
+  background-color: #f7f4f4;
+  border-radius: 5px;
+
+  &.active {
+    display: flex;
+  }
+`;

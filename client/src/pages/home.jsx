@@ -3,20 +3,36 @@ import MovieCard from "../components/movieCard";
 import Pagination from "../components/pagination";
 import { Link } from "react-router-dom";
 import { useFetchData } from "../helpers/dataHandler";
-import { useState } from "react";
+import { useEffect, useState } from "react";
+import { searchFor } from "../helpers/searchHandler";
+import { SearchSpinner } from "../components/spinner";
 
 export default function Home() {
-  const { data: movies } = useFetchData("http://localhost:8080/movie/get-all");
+  const {
+    data: movies,
+    setData,
+    fetchData,
+  } = useFetchData("http://localhost:8080/movie/get-all");
+
   const unwantedPathForBtn = ["/add-new"];
+  const [searchInput, setSearchInput] = useState("");
 
   const [currentPage, setCurrentPage] = useState(1);
-  const moviesPerPage = 1;
+  const moviesPerPage = 5;
 
   // Get Current Posts
   const indexOfLastMovie = currentPage * moviesPerPage;
   const indexOfFirstMovie = indexOfLastMovie - moviesPerPage;
   const currentMovies = movies.slice(indexOfFirstMovie, indexOfLastMovie);
-  console.log(currentMovies);
+
+  useEffect(() => {
+    if (searchInput) {
+      searchFor(searchInput, setData);
+    } else {
+      fetchData();
+    }
+  }, [searchInput]);
+
   return (
     <HomePage>
       {!unwantedPathForBtn.includes(window.location.pathname) && (
@@ -34,10 +50,16 @@ export default function Home() {
           <label>Search Movie</label>
           <i className="bi bi-search search_icon"></i>
         </div>
-        <input type="text" placeholder="Type Movie Name" />
+        <input
+          onChange={(e) => setSearchInput(e.target.value)}
+          value={searchInput}
+          type="text"
+          placeholder="Type Movie Name"
+        />
       </SearchForm>
+      <SearchSpinner />
       {!movies.length ? (
-        <h2 className="no_data">No Movie Data!🎈</h2>
+        <h2 className="no_data">No Movies Found!🎈</h2>
       ) : (
         currentMovies.map((movie) => {
           return <MovieCard key={movie._id} data={movie} />;

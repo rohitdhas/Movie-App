@@ -5,6 +5,10 @@ export function useFetchData(url) {
     const [data, setData] = useState([]);
 
     useEffect(() => {
+        fetchData()
+    }, [])
+
+    function fetchData() {
         startSpinner()
         fetch(url)
             .then(res => res.json())
@@ -15,9 +19,9 @@ export function useFetchData(url) {
                 }
             })
             .catch(err => console.log(err))
-    }, [])
+    }
 
-    return { data }
+    return { data, setData, fetchData }
 }
 
 export function deleteMovie(movieId) {

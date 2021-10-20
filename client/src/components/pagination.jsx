@@ -17,7 +17,7 @@ export default function Pagination({ moviesPerPage, totalMovies, paginate }) {
         {pageNumbers.map((num) => {
           return (
             <Number onClick={() => paginate(num)} key={num}>
-              <a href="#">{num}</a>
+              <a href="#!">{num}</a>
             </Number>
           );
         })}

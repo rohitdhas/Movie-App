@@ -24,4 +24,26 @@ const getOneMovie = async (req, res) => {
     }
 }
 
-module.exports = { getAllMovies, getOneMovie }
+const quickSearch = async (req, res) => {
+    try {
+        let results = await Movie.aggregate([
+            {
+                "$search": {
+                    "autocomplete": {
+                        "query": `${req.query.term}`,
+                        "path": "name",
+                        "fuzzy": {
+                            "maxEdits": 1,
+                        },
+                    },
+                },
+            },
+        ]);
+        res.json({ data: results });
+    } catch (err) {
+        console.log(err)
+        res.status(500).json({ message: err.message });
+    }
+}
+
+module.exports = { getAllMovies, getOneMovie, quickSearch }

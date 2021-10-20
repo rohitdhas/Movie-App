@@ -41,7 +41,7 @@ export function uploadFile(e, nameRef, releaseYearRef, ratingsRef, categoryRef, 
     }
 
     startSpinner()
-    updateLoadingText('Uploading Movie...')
+    updateLoadingText('Uploading Movie...🚀🔥')
 
     const formData = new FormData();
 
